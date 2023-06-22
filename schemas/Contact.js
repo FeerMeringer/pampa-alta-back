@@ -4,7 +4,7 @@ import Joi from "joi-oid";
   name: Joi
     .string()
     .required()
-    .min(3)
+    .min(2)
     .max(20)
     .messages({
     "string.min": "The name must have at least 3 characteres",
@@ -17,7 +17,19 @@ import Joi from "joi-oid";
     .email({ minDomainSegments: 2 })
     .messages({
     invalid: "Not an objets",
-    })
+    }),
+    message: Joi
+    .string()
+    .required()
+    .min(5)
+    .max(50)
+    .messages({
+      "string.min": "The name must have at least 5 characteres",
+      "string.max": "The name must have a maximum of 50 characteres",
+    }),
+    subject: Joi 
+    .string()
+    .required() 
   
 });
 export default schema;
