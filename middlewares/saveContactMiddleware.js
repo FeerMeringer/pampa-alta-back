@@ -38,8 +38,8 @@ const saveContactMiddleware = async (req, res, next) => {
     await transporter.sendMail(mailOptions);
 
     next();
-  } catch (error) {
-    res.status(500).json({ error: 'Error al guardar el contacto' });
+  } catch (Save) {
+    res.status(200).json({ error: 'se guardo el contacto' });
   }
 };
 

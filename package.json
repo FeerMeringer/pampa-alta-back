@@ -20,6 +20,7 @@
     "joi-oid": "^1.1.2",
     "mongoose": "^7.1.0",
     "morgan": "~1.9.1",
-    "nodemailer": "^6.9.3"
+    "nodemailer": "^6.9.3",
+    "render": "^0.1.4"
   }
 }
