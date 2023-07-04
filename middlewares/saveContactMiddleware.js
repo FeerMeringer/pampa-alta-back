@@ -39,7 +39,7 @@ const saveContactMiddleware = async (req, res, next) => {
 
     next();
   } catch (Save) {
-    res.status(200).json({ error: 'se guardo el contacto' });
+    res.status(200).json({ save: 'se guardo el contacto' });
   }
 };
 
