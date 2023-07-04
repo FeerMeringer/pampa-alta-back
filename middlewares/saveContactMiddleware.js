@@ -28,7 +28,7 @@ const saveContactMiddleware = async (req, res, next) => {
 
     // Define el contenido del correo electrónico
     const mailOptions = {
-      from: process.env.SMTP_USER, // Remitente del correo electrónico
+      from: 'fermeringer@gmail.com', // Remitente del correo electrónico
       to: 'fermeringer@gmail.com', // Destinatario del correo electrónico
       subject: 'Nuevo contacto', // Asunto del correo electrónico
       text: `Nombre: ${name}\nEmail: ${email}\nMensaje: ${message}`, // Contenido del correo electrónico
@@ -37,11 +37,12 @@ const saveContactMiddleware = async (req, res, next) => {
     // Envía el correo electrónico
     await transporter.sendMail(mailOptions);
 
-    next();
-  } catch (Save) {
-    res.status(200).json({ save: 'se guardo el contacto' });
+    res.status(200).json({ message: 'Se guardó el contacto y se envió el correo electrónico.' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al guardar el contacto.' });
   }
 };
+
 
 export default saveContactMiddleware;
 
