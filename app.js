@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser"
 import logger from "morgan" 
 import { __dirname } from "./utils.js"
 import indexRouter from './routes/index.js'                             
-import './config/database.js'                                               
+                                            
 import cors from 'cors'
 
 // import {errorHandler, errorNotFound} from './middlewares/error.js'

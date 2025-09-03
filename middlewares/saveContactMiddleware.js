@@ -1,49 +1,41 @@
-import Contact from '../models/Contacts.js';
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Cargar variables de entorno desde el archivo .env
+dotenv.config();
 
-const saveContactMiddleware = async (req, res, next) => {
+const saveContactMiddleware = async (req, res) => {
   try {
     const { name, email, message, subject } = req.body;
 
-    const newContact = new Contact({
-      name,
-      email,
-      message,
-      subject,
-    });
-
-    await newContact.save();
-
-    // Configura el transporte de correo electrónico
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: process.env.SMTP_HOST,    
+      port: Number(process.env.SMTP_PORT), 
       auth: {
-        user: process.env.SMTP_USER, // Obtener el usuario de correo electrónico desde las variables de entorno
-        pass: process.env.SMTP_PASS, // Obtener la contraseña de correo electrónico desde las variables de entorno
-      },
+        user: process.env.SMTP_USER,  
+        pass: process.env.SMTP_PASS   
+      }
     });
 
-    // Define el contenido del correo electrónico
-    const mailOptions = {
-      from: 'fermeringer@gmail.com', // Remitente del correo electrónico
-      to: 'fermeringer@gmail.com', // Destinatario del correo electrónico
-      subject: 'Nuevo contacto', // Asunto del correo electrónico
-      text: `Nombre: ${name}\nEmail: ${email}\nMensaje: ${message}`, // Contenido del correo electrónico
-    };
-
-    // Envía el correo electrónico
-    await transporter.sendMail(mailOptions);
-
-    res.status(200).json({ message: 'Se guardó el contacto y se envió el correo electrónico.' });
-  } catch (error) {
-    res.status(500).json({ error: 'Error al guardar el contacto.' });
-  }
+   const mailOptions = {
+  from: 'fermeringer@gmail.com',          // ya verificado en Brevo
+  to: 'fermeringer@gmail.com',
+  subject: `Nuevo contacto: ${subject}`,
+  text: `Nombre: ${name}\nEmail: ${email}\nMensaje: ${message}`
 };
 
 
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: '✅ Email enviado correctamente.' });
+  } catch (error) {
+    console.error('Error enviando email:', error);
+    res.status(500).json({ error: '❌ Error al enviar el correo electrónico.' });
+  }
+};
+
 export default saveContactMiddleware;
+
+
+
 
 
